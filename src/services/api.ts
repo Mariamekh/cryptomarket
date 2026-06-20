@@ -27,6 +27,7 @@ async function fetchMockMarket(): Promise<MarketResult> {
 async function fetchLiveMarket(signal?: AbortSignal): Promise<MarketResult> {
   const res = await fetch(MARKETS_URL, {
     signal,
+    cache: "no-store",
     headers: { accept: "application/json" },
   });
 
