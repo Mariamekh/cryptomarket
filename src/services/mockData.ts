@@ -59,7 +59,10 @@ const SYNTH_NAMES = [
 
 const STABLECOINS = new Set(["usdt", "usdc", "dai"]);
 
+let demoTick = 0;
+
 export function generateMockMarket(count = 150): Coin[] {
+  demoTick++;
   const coins: Coin[] = [];
   for (let i = 0; i < count; i++) {
     const rng = makeRng(i * 2654435761 + 1);
@@ -69,7 +72,9 @@ export function generateMockMarket(count = 150): Coin[] {
       `${SYNTH_NAMES[i % SYNTH_NAMES.length]} ${SYNTH_NAMES[(i * 7) % SYNTH_NAMES.length]}`;
     const symbol =
       seed?.symbol ?? `${SYNTH_NAMES[i % SYNTH_NAMES.length].slice(0, 3)}${i}`.toLowerCase();
-    const price = seed?.price ?? Math.max(0.0001, 200 * Math.pow(rng(), 3));
+    const basePrice = seed?.price ?? Math.max(0.0001, 200 * Math.pow(rng(), 3));
+    const price =
+      demoTick === 1 ? basePrice : basePrice * (1 + (Math.random() - 0.5) * 0.012);
 
     const isStable = STABLECOINS.has(symbol);
     const swing = isStable ? 0.15 : 14;

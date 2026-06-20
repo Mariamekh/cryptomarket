@@ -178,6 +178,32 @@ button {
   }
 }
 
+.flash-up {
+  animation: flash-up 0.7s ease-out;
+}
+
+.flash-down {
+  animation: flash-down 0.7s ease-out;
+}
+
+@keyframes flash-up {
+  from {
+    background: rgba(24, 201, 138, 0.4);
+  }
+  to {
+    background: transparent;
+  }
+}
+
+@keyframes flash-down {
+  from {
+    background: rgba(240, 80, 110, 0.4);
+  }
+  to {
+    background: transparent;
+  }
+}
+
 .last-updated {
   color: var(--muted);
   font-size: 12px;

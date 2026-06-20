@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import type { Coin } from "../types/market";
 import { formatCompact, formatPrice } from "../lib/format";
 import { PercentChange } from "./PercentChange";
@@ -12,6 +12,19 @@ interface Props {
 }
 
 function MarketRowBase({ coin, isExpanded, onToggle }: Props) {
+  const prevPrice = useRef(coin.current_price);
+  const [flash, setFlash] = useState<"" | "up" | "down">("");
+
+  useEffect(() => {
+    const prev = prevPrice.current;
+    if (coin.current_price !== prev) {
+      setFlash(coin.current_price > prev ? "up" : "down");
+      prevPrice.current = coin.current_price;
+      const t = setTimeout(() => setFlash(""), 700);
+      return () => clearTimeout(t);
+    }
+  }, [coin.current_price]);
+
   return (
     <div
       className={`market-grid market-row${isExpanded ? " is-expanded" : ""}`}
@@ -36,7 +49,9 @@ function MarketRowBase({ coin, isExpanded, onToggle }: Props) {
         </span>
       </span>
 
-      <span className="cell-right cell-num">{formatPrice(coin.current_price)}</span>
+      <span className={`cell-right cell-num${flash ? ` flash-${flash}` : ""}`}>
+        {formatPrice(coin.current_price)}
+      </span>
       <span className="cell-right">
         <PercentChange value={coin.price_change_percentage_1h_in_currency} />
       </span>

@@ -53,7 +53,8 @@ rate-limits and can occasionally be unreachable, so there is a fully shaped
 - **States** — skeleton loading, a clear error screen with **Retry** + demo fallback,
   and live freshness signals: a **LIVE/DEMO** badge, a ticking "Updated Xs ago", a
   refreshing spinner, a manual **Refresh** button, and **auto-refresh every 60s**.
-  Refreshes never blank the table (previous data is kept while new data loads).
+  Refreshes never blank the table (previous data is kept while new data loads), and price
+  cells flash green/red when a value changes.
 
 ---
 
@@ -68,7 +69,8 @@ rate-limits and can occasionally be unreachable, so there is a fully shaped
 
 A single request powers the whole screen (the percentage windows and the 7-day
 sparkline are requested up front). The mock dataset in `src/services/mockData.ts` is
-shaped **identically** to this response and generated deterministically.
+shaped **identically** to this response, generated from a seeded base that drifts slightly
+on each refresh so demo data behaves like a live market.
 
 ---
 
